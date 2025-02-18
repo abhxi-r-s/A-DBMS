@@ -6,7 +6,7 @@ USE company;
 create table countries(country_id int PRIMARY KEY,country_name varchar(20),region_id int not null,FOREIGN KEY(region_id) references regions(region_id));
 create table jobs(job_id int PRIMARY KEY,job_title varchar(20),min_salary integer,max_salary integer);
 CREATE TABLE employee(employee_id int PRIMARY KEY,first_name varchar(20),last_name varchar(20),email varchar(20),phone_number int(10),hire_date date,manager_id int,department_id int,job_id int,foreign key(department_id) references departments(department_id),foreign key(job_id) references jobs(job_id));
-CREATE TABLE location(location_id int PRIMARY KEY,street_address varchar(20),postal_code int,city varchar(20),country_id int,FOREIGN KEY(country_id) references countries(country_id));
+CREATE TABLE locations(location_id int PRIMARY KEY,street_address varchar(20),postal_code int,city varchar(20),country_id int,FOREIGN KEY(country_id) references countries(country_id));
 CREATE TABLE departments(department_id int PRIMARY KEY,department_name varchar(20),location_id int,FOREIGN KEY(location_id) references location(location_id));
 CREATE TABLE dependents(dependent_id int PRIMARY KEY,first_name varchar(20),last_name varchar(20),relationship varchar(20),employee_id int,foreign key(employee_id) references employee(employee_id));
 use company;
@@ -22,5 +22,55 @@ DESC country;
 insert into regions(region_id,region_name)VALUES('2','india');
 select* from regions;
 select * from regions where region_id=2;
+use company;
 
+alter table employee add column salary int;
+alter table location add column state_province varchar(20);
+
+
+use company;
+DELETE  FROM regions where region_id =2;
+insert into regions values(1,'Europe'),(2,'Americas'),(3,'Asia'),(4,'MiddleEastandAfrica');
+select* from regions;
+insert into country values(101,'ARGENTINA',2);
+insert into country values(102,'AUSTRALIA',3),(103,'BELGIUM',1);
+insert into country values(104,'BRAZIL',2),(105,'CANADA',2),(106,'SWITZERLAND',1),(107,'CHINA',3),(108,'GERMANY',1),(109,'DENMARK',1),(110,'EGYPT',4),(111,'FRANCE',1);
+select * from location;
+insert into location(location_id,street_address,postal_code,city,state_province,country_id) values(1400,'Jabberwocky',695503,'Sountlake','Texas',110),(1500,'Francisco',695583,'California','San',108),(1600,'Spantina',695556,'Torento','Ontaria',109),(1700,'SanArthur',695506,'StNull','London',102),(1800,'Oxford',695502,'Oxii','Texas',101);
+select* from location;
+insert into jobs values(1,'Public Accountant',4500,9000),(2,'Accounting Manager',4900,10000),(3,'Administration Mg',5000,12000),(4,'Finance Manager',5100,15000),(5,'Purchasing Clerk',4000,9500);
+use company;
+insert into jobs values(6,'Purchasing Manager',7000,14000),(7,'Stock Manager',6000,10000),(8,'Shiping Clerk',6500,9500),(9,'Relation Manager',7500,11000),(10,'Resource Manager',5000,12000);
+insert into departments values(1,'Administration',1400),(2,'Marketing',1500),(3,'Purchasing',1600),(4,'Human Resource',1700),(5,'Shipping',1800);
+insert into employee(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) values(100,'Steven','King','stevenking@gmail.com','98765410','1989-09-21',1,25000,100,1);
+insert into employee(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) values(101,'Neena','Kochhar','neenachhar@gmail.com','76326536','1987-08-21',2,35000,101,2);
+insert into employee(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) values(102,'Lex','Dohan','lexdohan@gmail.com','45217653','1988-01-21',3,32000,102,3);
+insert into employee(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) values(103,'Alexander','Hunold','alexander@gmail.com','54235641','1990-02-07',4,50000,103,4);
+insert into employee(employee_id,first_name,last_name,email,phone_number,hire_date,job_id,salary,manager_id,department_id) values(104,'Bruce','Ernst','brucee@gmail.com','6348250','1991-05-22',5,45000,104,5);
+
+insert into dependents values(1,'Penelope','Gietz','Child',100),(2,'Nick','Higgins','Child',101),(3,'Ed','Whalen','Father',102),(4,'Jennifer','King','Child',103),(5,'Mathew','Chen','Child',104);
+use company;
+select * from employee;
+select * from country;
+select * from jobs;
+select * from location;
+select * from regions;
+select * from departments;
+select * from dependents;
+
+select country_name from country;
+select email,phone_number from employee;
+select * from employee where last_name = 'king';
+select hire_date from employee where last_name IN ('king','ernst');
+select * from employee where department_id = 3;
+select * from departments order by department_id desc;
+select * from employee where last_name like 'K%';
+select * from employee where hire_date between '1990-01-01' and '1997-01-01';
+select * from employee where salary < 32000;
+select lower(email) as email from employee;
+select first_name,last_name from employee where extract(year from hire_date) = 1987;
+insert into employee (first_name, last_name, department_id, employee_id) values ('Paul','Newton',4,105);
+delete from departments where department_name = 'Shipping';
+set SQL_SAFE_UPDATES=0;
+SELECT * FROM employee WHERE DAYNAME(hire_date) = 'Thursday';
 
