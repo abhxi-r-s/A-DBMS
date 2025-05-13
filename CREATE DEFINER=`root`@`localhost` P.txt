@@ -1,0 +1,16 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(in num int)
+BEGIN
+declare name varchar(10);
+Set name="Luffy";
+Select num;
+END
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `test`(in num int)
+BEGIN
+if num>0
+then
+select "positive";
+end if;
+END
